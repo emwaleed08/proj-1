@@ -1,0 +1,421 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --color-bg: #f3ecdf;
+    --color-surface: #fffbf3;
+    --color-surface-tint: #ede2cf;
+    --color-border: #ddccae;
+
+    --color-text: #3a2e22;
+    --color-text-muted: #6f6151;
+
+    --color-primary: #b3583c;
+    --color-primary-dark: #8c4330;
+    --color-secondary: #6f7f56;
+    --color-secondary-dark: #556343;
+
+    --color-pastel-terracotta: #eab99c;
+    --color-pastel-sage: #c3d1a8;
+
+    --font-display: 'Fraunces', 'Georgia', serif;
+    --font-body: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
+
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 1rem;
+    --space-4: 1.5rem;
+    --space-5: 2.5rem;
+    --space-6: 4rem;
+
+    --radius-sm: 0.5rem;
+    --radius-md: 1rem;
+    --radius-lg: 1.75rem;
+    --shadow-soft: 0 12px 30px -12px rgba(58, 46, 34, 0.25);
+
+    --content-max-width: 68rem;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    background-image:
+        radial-gradient(circle at 100% 0%, var(--color-surface-tint) 0%, transparent 45%),
+        radial-gradient(circle at 0% 100%, var(--color-surface-tint) 0%, transparent 40%);
+    font-family: var(--font-body);
+    color: var(--color-text);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    padding: var(--space-5) var(--space-3);
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+a {
+    color: var(--color-primary-dark);
+}
+
+:focus-visible {
+    outline: 3px solid var(--color-secondary-dark);
+    outline-offset: 2px;
+}
+
+/* Page-level layout */
+
+.recipe-container {
+    width: 100%;
+    max-width: var(--content-max-width);
+    min-width: 0;
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "header"
+        "meta"
+        "description"
+        "ingredients"
+        "instructions"
+        "footer";
+    gap: var(--space-5) 0;
+    padding: var(--space-4) var(--space-4) var(--space-5);
+}
+
+.recipe-header {
+    grid-area: header;
+}
+
+.recipe-meta {
+    grid-area: meta;
+}
+
+.recipe-description {
+    grid-area: description;
+}
+
+.ingredients-section {
+    grid-area: ingredients;
+}
+
+.instructions-section {
+    grid-area: instructions;
+}
+
+.recipe-footer {
+    grid-area: footer;
+}
+
+/* Tablet: ingredients and instructions split into two columns;
+   ingredients stays pinned in view while instructions scroll alongside */
+@media (min-width: 48rem) {
+    .recipe-container {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "header       header"
+            "meta         meta"
+            "description  description"
+            "ingredients  instructions"
+            "footer       footer";
+        padding: var(--space-6);
+        gap: var(--space-6) var(--space-5);
+        align-items: start;
+    }
+
+    .instructions-section {
+        border-left: 2px solid var(--color-border);
+        padding-left: var(--space-5);
+    }
+
+    .ingredients-section {
+        position: sticky;
+        top: var(--space-4);
+        align-self: start;
+    }
+}
+
+/* Header */
+
+.recipe-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    text-align: center;
+    position: relative;
+    min-width: 0;
+}
+
+.aesthetic-credit {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-secondary-dark);
+    background-color: var(--color-surface-tint);
+    border-radius: 999px;
+    padding: var(--space-1) var(--space-3);
+    text-decoration: none;
+}
+
+.aesthetic-credit:hover,
+.aesthetic-credit:focus-visible {
+    text-decoration: underline;
+}
+
+.recipe-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    line-height: 1.1;
+    color: var(--color-primary);
+    max-width: 30ch;
+}
+
+.recipe-image {
+    content: url("Chocolate-Chip-Pecan-Cookies-51-2.jpg");
+    order: -1;
+
+    width: calc(100% + 2 * var(--space-4));
+    max-width: none;
+
+    margin: calc(-1 * (var(--space-4) + var(--space-5))) calc(-1 * var(--space-4)) 0;
+
+    height: clamp(16rem, 38vw, 28rem);
+    object-fit: cover;
+    object-position: center;
+
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+
+    filter: sepia(0.12) saturate(1.05) brightness(1.02);
+
+    box-shadow: 0 1.5rem 2rem -1.5rem rgba(60, 42, 26, 0.35);
+}
+
+@media (min-width: 48rem) {
+    .recipe-image {
+        width: calc(100% + 2 * var(--space-6));
+        margin: calc(-1 * (var(--space-6) + var(--space-5))) calc(-1 * var(--space-6)) 0;
+        height: clamp(22rem, 42vw, 34rem);
+    }
+
+    .recipe-title {
+        max-width: 40ch;
+    }
+}
+
+/* Meta row */
+
+.recipe-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    justify-content: center;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-3) 0;
+}
+
+.meta-item {
+    flex: 1 1 8rem;
+    text-align: center;
+    background-color: var(--color-surface);
+    border: 3px solid var(--color-pastel-terracotta);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    font-size: clamp(0.9rem, 0.82rem + 0.25vw, 1.05rem);
+    color: var(--color-text-muted);
+}
+
+.meta-item:nth-child(even) {
+    border-color: var(--color-pastel-sage);
+}
+
+.meta-item strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 0.9rem + 0.3vw, 1.2rem);
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.15rem;
+}
+
+@media (min-width: 48rem) {
+    .recipe-meta {
+        justify-content: space-between;
+    }
+}
+
+/* Description */
+
+.recipe-description {
+    font-size: clamp(1.05rem, 0.95rem + 0.3vw, 1.25rem);
+    color: var(--color-text-muted);
+    text-align: left;
+}
+
+@media (min-width: 48rem) {
+    .recipe-description p::first-letter {
+        font-family: var(--font-display);
+        font-size: 3rem;
+        font-weight: 600;
+        color: var(--color-primary);
+        float: left;
+        line-height: 0.8;
+        padding-right: var(--space-2);
+        padding-top: 0.3rem;
+    }
+}
+
+/* Section headings */
+
+.ingredients-section h2,
+.instructions-section h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.9rem);
+    color: var(--color-primary);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    display: inline-block;
+    border-bottom: 2px solid var(--color-secondary);
+}
+
+/* Ingredients */
+
+.ingredients-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.ingredients-list li {
+    background-color: var(--color-surface);
+    border: 3px solid var(--color-pastel-terracotta);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    font-size: clamp(0.95rem, 0.85rem + 0.3vw, 1.1rem);
+}
+
+.ingredients-list li label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    cursor: pointer;
+}
+
+.ingredients-list li input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--color-secondary-dark);
+    cursor: pointer;
+}
+
+.ingredients-list li input[type="checkbox"]:checked ~ span {
+    text-decoration: line-through;
+    color: var(--color-text-muted);
+    opacity: 0.6;
+}
+
+/* Instructions */
+
+.instructions-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    counter-reset: step;
+}
+
+.instruction-step {
+    counter-increment: step;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    background-color: var(--color-surface);
+    border: 3px solid var(--color-pastel-terracotta);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    font-size: clamp(0.95rem, 0.85rem + 0.3vw, 1.1rem);
+}
+
+.instruction-step::before {
+    content: counter(step);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(2rem, 1.85rem + 0.4vw, 2.4rem);
+    height: clamp(2rem, 1.85rem + 0.4vw, 2.4rem);
+    border-radius: 50%;
+    background-color: var(--color-secondary-dark);
+    color: var(--color-surface);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1rem, 0.92rem + 0.2vw, 1.15rem);
+}
+
+.instruction-step strong {
+    color: var(--color-primary-dark);
+}
+
+/* Desktop: cards wrap into rows within their Grid column */
+@media (min-width: 75rem) {
+    .ingredients-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .ingredients-list li {
+        flex: 1 1 12rem;
+    }
+
+    .instructions-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .instruction-step {
+        flex: 1 1 100%;
+    }
+}
+
+/* Footer */
+
+.recipe-footer {
+    text-align: center;
+    font-size: clamp(0.85rem, 0.8rem + 0.15vw, 0.95rem);
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-3);
+}
+
+.recipe-footer p + p {
+    margin-top: var(--space-1);
+}
+
+.recipe-container + div {
+    display: none;
+}
